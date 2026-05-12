@@ -1,0 +1,59 @@
+name: Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "packages/api-core/src/**"
+      - "packages/restapi/src/**"
+      - "scripts/gen_api_docs.py"
+  pull_request:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "packages/api-core/src/**"
+      - "packages/restapi/src/**"
+      - "scripts/gen_api_docs.py"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  VIRTUALENV_ACTIVATORS: "bash,python"
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          environment-file: conda/dev.yaml
+          channels: conda-forge,nodefaults
+          activate-environment: hph-vision
+          auto-update-conda: true
+          conda-solver: libmamba
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          poetry config virtualenvs.create false
+          poetry install
+
+      - name: Generate documentation
+        run: makim docs.build
+
+      - name: GitHub Pages action
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        uses: peaceiris/actions-gh-pages@v3.5.9
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build

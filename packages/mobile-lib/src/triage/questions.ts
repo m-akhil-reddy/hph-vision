@@ -1,0 +1,82 @@
+import type {TriageQuestion} from './types';
+
+export const TRIAGE_QUESTIONS: TriageQuestion[] = [
+  {
+    id: 'sudden-vision-loss',
+    promptKey: 'triage.suddenVisionLoss',
+    fallbackPrompt: 'Have you had sudden vision loss?',
+    category: 'sudden_vision_loss',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+    urgentOnPositive: true,
+  },
+  {
+    id: 'eye-pain',
+    promptKey: 'triage.eyePain',
+    fallbackPrompt: 'Do you have eye pain?',
+    category: 'eye_pain',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+    urgentOnPositive: true,
+  },
+  {
+    id: 'flashes-or-floaters',
+    promptKey: 'triage.flashesOrFloaters',
+    fallbackPrompt: 'Are you seeing new flashes or floaters?',
+    category: 'flashes_or_floaters',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+    urgentOnPositive: true,
+  },
+  {
+    id: 'double-vision',
+    promptKey: 'triage.doubleVision',
+    fallbackPrompt: 'Are you experiencing double vision?',
+    category: 'double_vision',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+  },
+  {
+    id: 'recent-eye-trauma',
+    promptKey: 'triage.recentEyeTrauma',
+    fallbackPrompt: 'Have you had recent eye trauma?',
+    category: 'recent_eye_trauma',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+    urgentOnPositive: true,
+  },
+  {
+    id: 'severe-redness',
+    promptKey: 'triage.severeRedness',
+    fallbackPrompt: 'Do you have severe eye redness?',
+    category: 'severe_redness',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+  },
+  {
+    id: 'known-glaucoma',
+    promptKey: 'triage.knownGlaucoma',
+    fallbackPrompt: 'Have you been diagnosed with glaucoma?',
+    category: 'known_glaucoma',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+  },
+  {
+    id: 'diabetes-related-risk',
+    promptKey: 'triage.diabetesRelatedRisk',
+    fallbackPrompt: 'Do you have diabetes-related eye disease risk?',
+    category: 'diabetes_related_risk',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+  },
+  {
+    id: 'recent-eye-surgery',
+    promptKey: 'triage.recentEyeSurgery',
+    fallbackPrompt: 'Have you had recent eye surgery?',
+    category: 'recent_eye_surgery',
+    answerType: 'yesNo',
+    blocksSelfTestOnPositive: true,
+  },
+];
+
+export const getTriageQuestions = (): TriageQuestion[] => [...TRIAGE_QUESTIONS];

@@ -1,0 +1,29 @@
+[project]
+name = "hph-vision-api"
+version = "0.1.0"  # semantic-release
+description = "FastAPI service for HPH Vision."
+authors = [{name = "Hiper Health"}]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dynamic = ["dependencies"]
+
+[tool.poetry]
+packages = [{include = "hph_vision_api", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+fastapi = ">=0.115,<1.0"
+uvicorn = {extras = ["standard"], version = ">=0.30,<1.0"}
+hph-vision-core = "0.1.0"  # semantic-release
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.2,<9.0"
+ruff = ">=0.6,<1.0"
+mypy = ">=1.11,<2.0"
+
+[project.scripts]
+hph-vision-api = "hph_vision_api.main:main"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"

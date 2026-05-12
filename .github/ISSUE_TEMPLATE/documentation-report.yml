@@ -1,0 +1,44 @@
+---
+name: 📝 Documentation Report
+description: Report a problem with HPH Vision documentation
+labels: ["docs", "needs-triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        **Thank you for helping improve HPH Vision documentation!**
+
+  - type: textarea
+    attributes:
+      label: Summary
+      description: Explain the documentation problem or requested clarification.
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Documentation page or file
+      description: Paste the docs URL or repository path, such as docs/plans/mobile-app.md.
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Related package
+      options:
+        - packages/mobile
+        - packages/mobile-lib
+        - packages/api-core
+        - packages/restapi
+        - release / CI
+        - general docs
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Safety and privacy
+      options:
+        - label: I did not include sensitive patient data, credentials, or secrets.
+          required: true

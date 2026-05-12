@@ -1,0 +1,15 @@
+name: hph-vision
+channels:
+  - nodefaults
+  - conda-forge
+dependencies:
+  - python >=3.11,<4.0
+  - nodejs
+  - yarn
+  - openjdk 17.*
+  - bash
+  - poetry
+  - pip
+  - pip:
+      - pre-commit
+      - makim

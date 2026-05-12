@@ -1,0 +1,147 @@
+name: main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  VIRTUALENV_ACTIVATORS: "bash,python"
+
+jobs:
+  check-branch:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: check-branch-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if the PR branch is updated
+        uses: osl-incubator/gh-check-pr-is-updated@1.0.0
+        with:
+          remote_branch: origin/main
+          pr_sha: ${{ github.event.pull_request.head.sha }}
+
+  python-api-tests:
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version: ["3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu]
+    runs-on: ${{ matrix.os }}-latest
+    concurrency:
+      group: ci-python-api-${{ matrix.os }}-${{ matrix.python_version }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          environment-file: conda/dev.yaml
+          channels: conda-forge,nodefaults
+          activate-environment: hph-vision
+          auto-update-conda: true
+          conda-solver: libmamba
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install Python dependencies
+        run: |
+          poetry check
+          poetry install
+
+      - name: Run API tests
+        run: makim api.test
+
+      - name: Run API type checks
+        run: makim api.typecheck
+
+  mobile-tests:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ci-mobile-${{ github.ref }}
+      cancel-in-progress: true
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          environment-file: conda/dev.yaml
+          channels: conda-forge,nodefaults
+          activate-environment: hph-vision
+          auto-update-conda: true
+          conda-solver: libmamba
+          python-version: "3.11"
+
+      - name: Install Node dependencies
+        run: yarn install --immutable
+
+      - name: Run mobile library tests and type checks
+        run: |
+          makim mobile-lib.test
+          makim mobile-lib.typecheck
+
+      - name: Run mobile app tests and type checks
+        run: |
+          makim mobile.test
+          makim mobile.typecheck
+
+  linter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: ci-linter-${{ github.ref }}
+      cancel-in-progress: true
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          environment-file: conda/dev.yaml
+          channels: conda-forge,nodefaults
+          activate-environment: hph-vision
+          auto-update-conda: true
+          conda-solver: libmamba
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.create false
+          poetry install
+          yarn install --immutable
+
+      - name: Run style checks
+        if: success() || failure()
+        run: |
+          pre-commit install
+          makim all.lint
+
+      - name: Setup tmate session
+        if: "${{ failure() && (contains(github.event.pull_request.labels.*.name, 'ci:enable-debugging')) }}"
+        uses: mxschmitt/action-tmate@v3

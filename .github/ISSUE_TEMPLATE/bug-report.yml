@@ -1,0 +1,67 @@
+---
+name: 🐛 Bug Report
+description: Create a report to help us improve HPH Vision
+labels: ["bug", "needs-triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        **Thank you for reporting a bug in HPH Vision!**
+
+        Please check first that your issue is not already reported.
+
+  - type: dropdown
+    attributes:
+      label: Affected package
+      options:
+        - packages/mobile (@hiperhealth/hphvision)
+        - packages/mobile-lib (@hiperhealth/hphvision-lib)
+        - packages/api-core (hph-vision-core)
+        - packages/restapi (hph-vision-api)
+        - release / CI / docs
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Summary
+      description: Explain the problem briefly below.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: OS / Environment
+      description: Provide OS, Node/Yarn, Python/Poetry, Android/iOS, and device details as applicable.
+      render: console
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Describe exactly how to reproduce the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual result
+      description: Paste command output, logs, screenshots, or traceback.
+      render: console
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Safety and privacy
+      options:
+        - label: I did not include sensitive patient data, credentials, or secrets.
+          required: true

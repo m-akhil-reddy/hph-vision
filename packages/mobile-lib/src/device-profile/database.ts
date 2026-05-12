@@ -1,0 +1,51 @@
+import type {DeviceProfile} from './types';
+
+export const DEVICE_PROFILES: DeviceProfile[] = [
+  {
+    id: 'generic-small-phone',
+    manufacturer: 'Generic',
+    modelName: 'Small phone',
+    bodyWidthMm: 67,
+    bodyHeightMm: 138,
+    thicknessMm: 8,
+    screenWidthPx: 1080,
+    screenHeightPx: 1920,
+    pixelDensity: 3,
+    screenWidthMm: 62,
+    screenHeightMm: 124,
+    templateFamily: 'generic-slab',
+    notchMask: {kind: 'unknown'},
+  },
+  {
+    id: 'generic-medium-phone',
+    manufacturer: 'Generic',
+    modelName: 'Medium phone',
+    bodyWidthMm: 72,
+    bodyHeightMm: 153,
+    thicknessMm: 8.5,
+    screenWidthPx: 1170,
+    screenHeightPx: 2532,
+    pixelDensity: 3,
+    screenWidthMm: 68,
+    screenHeightMm: 145,
+    templateFamily: 'generic-slab',
+    notchMask: {kind: 'unknown'},
+  },
+  {
+    id: 'generic-large-phone',
+    manufacturer: 'Generic',
+    modelName: 'Large phone',
+    bodyWidthMm: 78,
+    bodyHeightMm: 165,
+    thicknessMm: 9,
+    screenWidthPx: 1440,
+    screenHeightPx: 3120,
+    pixelDensity: 3.5,
+    screenWidthMm: 73,
+    screenHeightMm: 156,
+    templateFamily: 'generic-slab',
+    notchMask: {kind: 'unknown'},
+  },
+];
+
+export const getDeviceProfiles = (): DeviceProfile[] => [...DEVICE_PROFILES];

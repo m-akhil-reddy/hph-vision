@@ -1,0 +1,23 @@
+[project]
+name = "hph-vision-core"
+version = "0.1.0"  # semantic-release
+description = "Shared backend domain logic for HPH Vision."
+authors = [{name = "Hiper Health"}]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dynamic = ["dependencies"]
+
+[tool.poetry]
+packages = [{include = "hph_vision_core", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.2,<9.0"
+ruff = ">=0.6,<1.0"
+mypy = ">=1.11,<2.0"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🙋 Usage questions
+    url: https://github.com/hiperhealth-org/hph-vision/discussions
+    about: Ask questions about using or developing HPH Vision.
+  - name: 📖 Project docs
+    url: https://github.com/hiperhealth-org/hph-vision/tree/main/docs
+    about: Read the repository documentation and implementation plans.

@@ -1,0 +1,50 @@
+---
+name: ✨ Feature Request
+description: Suggest an idea for HPH Vision
+labels: ["feat/enhancement", "needs-triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        **Thank you for suggesting an improvement for HPH Vision!**
+
+  - type: dropdown
+    attributes:
+      label: Target package
+      options:
+        - packages/mobile (@hiperhealth/hphvision)
+        - packages/mobile-lib (@hiperhealth/hphvision-lib)
+        - packages/api-core (hph-vision-core)
+        - packages/restapi (hph-vision-api)
+        - release / CI / docs
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Summary
+      description: Describe the new feature or improvement.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Use case
+      description: Explain who benefits and how this should work.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Add examples, API sketches, screen ideas, or links.
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Safety and privacy
+      options:
+        - label: I did not include sensitive patient data, credentials, or secrets.
+          required: true

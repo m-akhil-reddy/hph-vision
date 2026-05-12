@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@hiperhealth/hphvision-lib": ["packages/mobile-lib/src"],
+      "@hiperhealth/hphvision-lib/*": ["packages/mobile-lib/src/*"]
+    },
+    "skipLibCheck": true
+  }
+}

@@ -1,0 +1,237 @@
+groups:
+  default:
+    tasks:
+      clean:
+        help: remove build artifacts and local caches
+        run: |
+          rm -fr build/ dist/ coverage/ htmlcov/
+          rm -fr packages/*/dist/
+          rm -fr .pytest_cache .mypy_cache .ruff_cache
+          find . -name '*.egg-info' -exec rm -fr {} +
+          find . -name '*.egg' -exec rm -f {} +
+          find . -name '*.pyc' -exec rm -f {} +
+          find . -name '__pycache__' -exec rm -fr {} +
+          find . -name '*.pyo' -exec rm -f {} +
+          find . -name '*~' -exec rm -f {} +
+          rm -f .coverage
+
+  all:
+    tasks:
+      lint:
+        help: run all configured lint and pre-commit checks
+        run: |
+          pre-commit install
+          pre-commit run --all-files
+
+      test:
+        help: run all Python and JavaScript tests
+        run: |
+          yarn test
+
+      typecheck:
+        help: run all TypeScript type checks and Python mypy checks
+        run: |
+          yarn typecheck
+          poetry run mypy packages/api-core/src packages/restapi/src
+
+      build:
+        help: build all releasable packages
+        run: ./scripts/build.sh
+
+      ci:
+        help: run CI checks locally
+        run: |
+          makim all.lint
+          makim all.test
+          makim all.typecheck
+          makim all.build
+
+  mobile:
+    tasks:
+      lint:
+        help: lint the React Native app package
+        run: yarn mobile:lint
+
+      test:
+        help: test the React Native app package
+        run: yarn mobile:test
+
+      typecheck:
+        help: typecheck the React Native app package
+        run: yarn mobile:typecheck
+
+      ci:
+        help: run mobile app CI checks
+        run: |
+          makim mobile.lint
+          makim mobile.test
+          makim mobile.typecheck
+
+  mobile-lib:
+    tasks:
+      lint:
+        help: lint @hiperhealth/hphvision-lib
+        run: yarn mobile-lib:lint
+
+      test:
+        help: test @hiperhealth/hphvision-lib
+        run: yarn mobile-lib:test
+
+      typecheck:
+        help: typecheck @hiperhealth/hphvision-lib
+        run: yarn mobile-lib:typecheck
+
+      pack:
+        help: create an npm package tarball for @hiperhealth/hphvision-lib
+        run: |
+          rm -rf packages/mobile-lib/dist
+          mkdir -p packages/mobile-lib/dist
+          yarn workspace @hiperhealth/hphvision-lib npm pack --out dist/hphvision-lib.tgz
+
+      ci:
+        help: run mobile library CI checks
+        run: |
+          makim mobile-lib.lint
+          makim mobile-lib.test
+          makim mobile-lib.typecheck
+
+  api-core:
+    tasks:
+      check:
+        help: validate hph-vision-core package metadata
+        run: poetry check -C packages/api-core
+
+      lint:
+        help: lint hph-vision-core
+        run: poetry run ruff check packages/api-core
+
+      format:
+        help: format hph-vision-core
+        run: poetry run ruff format packages/api-core
+
+      test:
+        help: test hph-vision-core
+        run: poetry run pytest packages/api-core/tests
+
+      typecheck:
+        help: typecheck hph-vision-core
+        run: poetry run mypy packages/api-core/src
+
+      build:
+        help: build hph-vision-core for PyPI
+        run: |
+          cd packages/api-core
+          poetry build
+
+      ci:
+        help: run hph-vision-core CI checks
+        run: |
+          makim api-core.check
+          makim api-core.lint
+          makim api-core.test
+          makim api-core.typecheck
+          makim api-core.build
+
+  restapi:
+    tasks:
+      check:
+        help: validate hph-vision-api package metadata
+        run: poetry check -C packages/restapi
+
+      lint:
+        help: lint hph-vision-api
+        run: poetry run ruff check packages/restapi
+
+      format:
+        help: format hph-vision-api
+        run: poetry run ruff format packages/restapi
+
+      test:
+        help: test hph-vision-api
+        run: poetry run pytest packages/restapi/tests
+
+      typecheck:
+        help: typecheck hph-vision-api
+        run: poetry run mypy packages/restapi/src
+
+      build:
+        help: build hph-vision-api for PyPI
+        run: |
+          cd packages/restapi
+          poetry build
+
+      ci:
+        help: run hph-vision-api CI checks
+        run: |
+          makim restapi.check
+          makim restapi.lint
+          makim restapi.test
+          makim restapi.typecheck
+          makim restapi.build
+
+  api:
+    tasks:
+      lint:
+        help: lint all Python API packages
+        run: yarn api:lint
+
+      test:
+        help: test all Python API packages
+        run: yarn api:test
+
+      typecheck:
+        help: typecheck all Python API packages
+        run: poetry run mypy packages/api-core/src packages/restapi/src
+
+      build:
+        help: build all Python API packages
+        run: |
+          makim api-core.build
+          makim restapi.build
+
+      ci:
+        help: run CI checks for all Python API packages
+        run: |
+          makim api-core.ci
+          makim restapi.ci
+
+  docs:
+    tasks:
+      build:
+        help: generate static documentation artifacts
+        run: |
+          python scripts/gen_api_docs.py
+          rm -rf build
+          mkdir -p build
+          cp -a docs/. build/
+
+      preview:
+        help: print generated documentation location
+        run: |
+          makim docs.build
+          echo "Documentation generated in ./build"
+
+  release:
+    vars:
+      app: |
+        npx --yes \
+          -p semantic-release \
+          -p conventional-changelog-conventionalcommits \
+          -p "@semantic-release/commit-analyzer" \
+          -p "@semantic-release/release-notes-generator" \
+          -p "@semantic-release/changelog" \
+          -p "@semantic-release/npm" \
+          -p "@semantic-release/exec" \
+          -p "@semantic-release/github" \
+          -p "@semantic-release/git" \
+          -p "@google/semantic-release-replace-plugin" \
+          semantic-release
+
+    tasks:
+      ci:
+        help: run semantic-release on CI
+        run: ${{ vars.app }} --ci
+
+      dry-run:
+        help: run semantic-release without publishing
+        run: ${{ vars.app }} --dry-run
