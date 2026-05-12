@@ -32,6 +32,70 @@
           },
           {
             "files": [
+              "packages/mobile/package.json"
+            ],
+            "from": "\"version\": \".*\",",
+            "to": "\"version\": \"${nextRelease.version}\",",
+            "results": [
+              {
+                "file": "packages/mobile/package.json",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ],
+            "countMatches": true
+          },
+          {
+            "files": [
+              "packages/mobile-lib/package.json"
+            ],
+            "from": "\"version\": \".*\",",
+            "to": "\"version\": \"${nextRelease.version}\",",
+            "results": [
+              {
+                "file": "packages/mobile-lib/package.json",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ],
+            "countMatches": true
+          },
+          {
+            "files": [
+              "packages/mobile/android/app/build.gradle"
+            ],
+            "from": "versionName \".*\"",
+            "to": "versionName \"${nextRelease.version}\"",
+            "results": [
+              {
+                "file": "packages/mobile/android/app/build.gradle",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ],
+            "countMatches": true
+          },
+          {
+            "files": [
+              "packages/mobile/ios/hphvision.xcodeproj/project.pbxproj"
+            ],
+            "from": "MARKETING_VERSION = .*;",
+            "to": "MARKETING_VERSION = ${nextRelease.version};",
+            "results": [
+              {
+                "file": "packages/mobile/ios/hphvision.xcodeproj/project.pbxproj",
+                "hasChanged": true,
+                "numMatches": 2,
+                "numReplacements": 2
+              }
+            ],
+            "countMatches": true
+          },
+          {
+            "files": [
               "packages/api-core/pyproject.toml"
             ],
             "from": "version = \".*\"  # semantic-release",
@@ -162,7 +226,10 @@
           "packages/api-core/src/hph_vision_core/version.py",
           "packages/restapi/pyproject.toml",
           "packages/restapi/src/hph_vision_api/version.py",
-          "packages/mobile-lib/package.json"
+          "packages/mobile-lib/package.json",
+          "packages/mobile/package.json",
+          "packages/mobile/android/app/build.gradle",
+          "packages/mobile/ios/hphvision.xcodeproj/project.pbxproj"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]"
       }
