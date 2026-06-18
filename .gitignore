@@ -92,4 +92,3 @@ dist/
 .env.*
 !.env.example
 
-.yarn/

@@ -28,6 +28,11 @@
     "typecheck": "yarn mobile:typecheck && yarn mobile-lib:typecheck",
     "mobile-lib:format": "yarn workspace @hiperhealth/hphvision-lib format"
   },
+  "devDependencies": {
+    "@react-native/eslint-config": "0.75.3",
+    "eslint": "^8.19.0",
+    "typescript": "5.0.4"
+  },
   "engines": {
     "node": ">=18"
   }
