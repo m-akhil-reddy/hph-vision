@@ -10,5 +10,6 @@ dependencies:
   - poetry
   - pip
   - pip:
+      - click
       - pre-commit
       - makim
