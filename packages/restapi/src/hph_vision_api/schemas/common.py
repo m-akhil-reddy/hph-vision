@@ -58,7 +58,8 @@ def model_to_json_dict(model: BaseModel) -> dict[str, Any]:
     if callable(dump):
         result: dict[str, Any] = dump(by_alias=True)
         return result
-    return model.dict(by_alias=True)  # type: ignore[return-value]
+    result_dict: dict[str, Any] = model.dict(by_alias=True)
+    return result_dict
 
 
 def datetime_to_iso(value: datetime) -> str:
