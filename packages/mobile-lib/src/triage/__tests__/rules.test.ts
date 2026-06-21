@@ -1,12 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
-<<<<<<< HEAD
-import {evaluateTriage, getTriageQuestions} from '..';
-
-=======
 import { evaluateTriage, getTriageQuestions } from '..';
-//.
->>>>>>> 929c12a (test: add combined triage red flag scenarios)
+
 describe('evaluateTriage', () => {
   it('allows self-test when all answers are negative', () => {
     const answers = getTriageQuestions().map(question => ({
