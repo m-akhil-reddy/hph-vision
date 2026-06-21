@@ -138,7 +138,9 @@ describe('evaluateTriage', () => {
   it('recommends professional care when multiple non-urgent red flags are present', () => {
     const answers = getTriageQuestions().map(question => ({
       questionId: question.id,
-      value: question.id === 'known-glaucoma' || question.id === 'diabetes-related-risk',
+      value:
+        question.id === 'known-glaucoma' ||
+        question.id === 'diabetes-related-risk',
     }));
 
     const result = evaluateTriage(answers);
@@ -149,10 +151,7 @@ describe('evaluateTriage', () => {
     });
 
     expect(result.redFlags).toEqual(
-      expect.arrayContaining([
-        'known_glaucoma',
-        'diabetes_related_risk',
-      ]),
+      expect.arrayContaining(['known_glaucoma', 'diabetes_related_risk']),
     );
   });
 
@@ -171,7 +170,10 @@ describe('evaluateTriage', () => {
   it('recommends urgent care when urgent and multiple non-urgent red flags are present', () => {
     const answers = getTriageQuestions().map(question => ({
       questionId: question.id,
-      value: question.id === 'eye-pain' || question.id === 'diabetes-related-risk' || question.id === 'known-glaucoma',
+      value:
+        question.id === 'eye-pain' ||
+        question.id === 'diabetes-related-risk' ||
+        question.id === 'known-glaucoma',
     }));
 
     expect(evaluateTriage(answers)).toMatchObject({
