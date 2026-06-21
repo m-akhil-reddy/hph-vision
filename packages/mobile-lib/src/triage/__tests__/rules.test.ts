@@ -1,7 +1,7 @@
 import {describe, expect, it} from '@jest/globals';
 
 import {evaluateTriage, getTriageQuestions} from '..';
-//.
+
 describe('evaluateTriage', () => {
   it('allows self-test when all answers are negative', () => {
     const answers = getTriageQuestions().map(question => ({
